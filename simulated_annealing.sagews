@@ -34,6 +34,13 @@ def simulated_annealing(initial_state, initial_temperature, cooling_rate, max_it
 
     return best_solution
 
+from math import exp
+
+def acceptance_probability(current_energy, new_energy, temperature):
+    if new_energy < current_energy:
+        return 1.0
+    return exp((current_energy - new_energy) / temperature)
+
 #-------------------------------------------------------------------------------------------------------------------------------
 
 from random import random, sample
@@ -93,8 +100,16 @@ def simulated_annealing(initial_state, graph, k, initial_temperature, cooling_ra
 
     return best_solution
 
-# Your existing code snippet
-# ... (Include setting up the graph, initial_state, and simulated annealing parameters)
+g = g = graphs.CubeGraph(4)
+k = 2
+
+# Assuming 'g' is your graph and 'k' is your desired k value
+initial_state = set(g.vertices())  # Initializing with all vertices as the initial state
+
+# Define initial_temperature, cooling_rate, and max_iterations
+initial_temperature = 100
+cooling_rate = 0.95
+max_iterations = 1000
 
 # Perform simulated annealing for k-metric dimension
 best_solution = simulated_annealing(initial_state, g, k, initial_temperature, cooling_rate, max_iterations)
