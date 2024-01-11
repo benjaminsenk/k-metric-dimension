@@ -1,7 +1,5 @@
-#input: graf, željena vrednost parametra K
-#prek clpja se pravilno (vsaj za k=1, ker za druge k nimam željenih vrednosti da bi preveril) izračuna
-#k-ta dimenzija grafa
-
+from sage.graphs.graph_plot import GraphPlot
+from sage.numerical.mip import MixedIntegerLinearProgram
 
 def CLP_k_dim(g, k_value):
     # Ustvarimo CLP
@@ -29,3 +27,10 @@ def CLP_k_dim(g, k_value):
     # Print tega niza
     #print(niz_z_rezultatom)
     return optimalna_resitev, vrednosti_za_S
+
+
+k = 3
+g = graphs.CubeGraph(6)
+show(g)
+
+CLP_k_dim(g, k)
