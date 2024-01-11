@@ -4,12 +4,12 @@ from sage.numerical.mip import MixedIntegerLinearProgram
 def CLP_k_dim(g, k_value):
     # Ustvarimo CLP
     p = MixedIntegerLinearProgram(maximization=False)
-    #nove spremenljivke
-    x = p.new_variable(binary = True)
-    #ciljna funkcija
+    # Nove spremenljivke
+    x = p.new_variable(binary=True)
+    # Ciljna funkcija
     p.set_objective(sum(x[v] for v in g))
 
-    #p.p.
+    # Dodajanje p.p.
     for va in g:
         for vb in g:
             if va != vb:
@@ -18,19 +18,22 @@ def CLP_k_dim(g, k_value):
             else:
                 continue
 
+    # Poskusimo rešiti ILP
+    try:
+        optimalna_resitev = p.solve()
+        vrednosti_za_S = p.get_values(x)
+        # Oblikovanje rešitve
+        niz_z_rezultatom = f"{k_value} dimension: {optimalna_resitev}"
+        # Print tega niza
+        # print(niz_z_rezultatom)
+        return optimalna_resitev, vrednosti_za_S
+    except:
+        # If an error occurs (e.g., infeasible), return a special value to indicate infinite dimension
+        return float('inf'), None
 
-    optimalna_resitev = p.solve()
-    vrednosti_za_S = p.get_values(x)
-
-    #oblikovanje rešitve
-    niz_z_rezultatom = f"{k_value} dimension: {optimalna_resitev}"
-    # Print tega niza
-    #print(niz_z_rezultatom)
-    return optimalna_resitev, vrednosti_za_S
-
-
-k = 3
-g = graphs.CubeGraph(6)
+k = 9
+g = graphs.CubeGraph(4)
 show(g)
 
 CLP_k_dim(g, k)
+
